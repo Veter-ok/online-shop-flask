@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for
-from forms import MyForm
+from forms import SingUpForm, LoginForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
@@ -17,12 +17,17 @@ def about_us():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    form = MyForm()
+    form = LoginForm()
     if form.validate_on_submit():
-        users.append(form.name.data)
-        print(users)
         return redirect(url_for('success'))
     return render_template("login.html", form=form)
+
+@app.route('/singup', methods=['POST', 'GET'])
+def singup():
+    form = SingUpForm()
+    if form.validate_on_submit():
+        users.append(form.email.data)
+    return render_template("singup.html", form=form)
 
 @app.route('/success')
 def success():

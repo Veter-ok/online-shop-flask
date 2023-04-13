@@ -2,19 +2,22 @@
 
 {% block body %} 
 <div class="container mt-4 w-50">
-	<p class="h1 text-center mb-3">Log in</p>
+	<p class="h1 text-center mb-3">Sing Up</p>
 	<form method="POST">
 		{{ form.csrf_token }}
 		<div class="input-group mb-3">
-			{{ form.email(class_='form-control', type="text", size=3) }}
+			<span class="input-group-text" id="basic-addon1">@username</span>
+			{{ form.name(class_='form-control', type="text") }}
+		</div>
+		<div class="input-group mb-3">
+			{{ form.email(class_='form-control', type="text") }}
 			<span class="input-group-text" id="basic-addon2" value="{{ request.form['email'] }}">@example.com</span>
 		</div>
 		<div class="input-group mb-3">
 			<span class="input-group-text" id="basic-addon1">password</span>
 			{{ form.password(class_='form-control', type="text") }}
 		</div>
-		<input type="submit" value="Log in">
-		<a href="{{ url_for('singup') }}" class="btn btn-primary">Haven't account</a>
+		<input type="submit" value="Sing up">
 	</form>
 </div>
 
