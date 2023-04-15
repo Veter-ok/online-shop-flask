@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %} 
-<p class="h1">Hi, {{ name }}</p>
-<p>name: {{ name }}</p>
+<p class="h1">Hi, {{ user.username }}</p>
+<p>name: {{ user.username }}</p>
+<p>email: {{ user.email }}</p>
 {% endblock %}
