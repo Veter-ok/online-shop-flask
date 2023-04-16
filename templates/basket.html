@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block links %} 
+{% if current_user.username %}
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+</li>
+<li class="nav-item">
+	<a class="nav-link" href="{{ url_for('basket') }}">Basket</a>
+</li>
+{% else %}
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('login') }}">Log in</a>
+</li>
+{% endif %}
+{% endblock %}
+
+{% block body %} 
+<p class="h1">Basket</p>
+<div class="row">
+	{% for product in basket %}
+	<div class="card w-25 mx-3">
+		<img src="{{ url_for('static', filename=product.img) }}" class="card-img-top" alt="...">
+		<div class="card-body">
+			<h5 class="card-title">{{ product.name }}</h5>
+			<p class="card-text" style="height: 9.2em; overflow: hidden;">Если вы следите за невероятными приключениями бедолаги Морти и его деда-алкоголика, учёного и по совместительству межгалактического преступника Рика Санчеза и устали ждать выхода третьего сезона, то эта книга определенно поможет вам скоротать время в ожидании.</p>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endblock %}

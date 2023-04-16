@@ -6,7 +6,7 @@
 	<a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
   </li>
   <li class="nav-item">
-	  <a class="nav-link" href="{{ url_for('profile') }}">Basket</a>
+	  <a class="nav-link" href="{{ url_for('basket') }}">Basket</a>
   </li>
 {% else %}
 <li class="nav-item">
@@ -17,12 +17,16 @@
 
 {% block body %} 
 <p class="h1 text-center m-4">Choose comics</p>
-<div class="card" style="width: 18rem; height: 20px;">
-	<img src="{{ url_for('static', filename='images/1.jpg') }}" class="card-img-top" alt="...">
-	<div class="card-body">
-	  <h5 class="card-title">Rick And Morty</h5>
-	  <!-- <p class="card-text" style="height: 9.2em; overflow: hidden;">Если вы следите за невероятными приключениями бедолаги Морти и его деда-алкоголика, учёного и по совместительству межгалактического преступника Рика Санчеза и устали ждать выхода третьего сезона, то эта книга определенно поможет вам скоротать время в ожидании.</p> -->
-	  <a href="#" class="btn btn-primary mt-4">Buy</a>
+<div class="row">
+	{% for product in products %}
+	<div class="card w-25 mx-3">
+		<img src="{{ url_for('static', filename=product.img) }}" class="card-img-top" alt="...">
+		<div class="card-body">
+			<h5 class="card-title">{{ product.name }}</h5>
+			<!-- <p class="card-text" style="height: 9.2em; overflow: hidden;">Если вы следите за невероятными приключениями бедолаги Морти и его деда-алкоголика, учёного и по совместительству межгалактического преступника Рика Санчеза и устали ждать выхода третьего сезона, то эта книга определенно поможет вам скоротать время в ожидании.</p> -->
+			<a href="{{ url_for('add_to_basket', productID=product.id) }}" class="btn btn-primary mt-4">Buy</a>
+		</div>
 	</div>
-  </div>
+	{% endfor %}
+</div>
 {% endblock %} 
