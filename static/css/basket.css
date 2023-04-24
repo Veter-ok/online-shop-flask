@@ -1,0 +1,43 @@
+.cards {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-row: auto;
+	gap: 20px;
+}
+
+.cards-header {
+	display: grid;
+	grid-template-columns: 33.3% 33.3% 33.3%;
+	padding: 10px;
+}
+
+.cards-header-item {
+	display: block;
+	margin: auto;
+	text-align: center;
+}
+
+.card {
+	display: grid;
+	grid-template-columns: 33.3% 33.3% 33.3%;
+	padding: 10px;
+}
+
+.card-title {
+	display: block;
+	margin: auto;
+	text-align: center;
+	font-size: 20px;
+}
+
+.count {
+	display: block;
+	margin: auto;
+	text-align: center;
+}
+
+a {
+	display: block;
+	margin: auto;
+	text-align: center;
+}

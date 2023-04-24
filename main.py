@@ -40,11 +40,13 @@ def login():
 def singup():
     form = SingUpForm()
     if form.validate_on_submit():
-        password = generate_password_hash(form.password.data, 'sha256')
-        new_user = User(username=form.name.data, email=form.email.data, password=password)
-        db_sess.add(new_user)
-        db_sess.commit()
-        return redirect(url_for('login'))
+        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        if user is None:
+            password = generate_password_hash(form.password.data, 'sha256')
+            new_user = User(username=form.name.data, email=form.email.data, password=password)
+            db_sess.add(new_user)
+            db_sess.commit()
+            return redirect(url_for('login'))
     return render_template("singup.html", current_user=current_user, form=form)
 
 @app.route('/profile/')
@@ -64,25 +66,31 @@ def logout():
 @login_required
 def basket():
     currnet_basket = db_sess.query(Basket).filter(Basket.id_user == current_user.id)
-    total = sum([products[item.id_product]['price'] for item in currnet_basket])
-    print(total)
+    total = sum([products[item.id_product]['price'] * item.count for item in currnet_basket])
     return render_template('basket.html', basket=currnet_basket, total=total)
 
 @app.route('/add_to_basket/<productID>')
 @login_required
 def add_to_basket(productID):
-    if db_sess.query(Basket).filter(Basket.id_product == productID and Basket.id_user == current_user.id).first() is None:
+    data = db_sess.query(Basket).filter(Basket.id_product == productID, Basket.id_user == current_user.id)
+    if data.first() is None:
         product = products[int(productID)]
-        new_product = Basket(id_product=int(productID), name=product['name'], description=product['description'], img=product['img'], id_user=current_user.id)
+        new_product = Basket(id_product=int(productID), name=product['name'], description=product['description'], count=1, img=product['img'], id_user=current_user.id)
         db_sess.add(new_product)
+        db_sess.commit()
+    else:
+        data.update({'count': data.first().count + 1})
         db_sess.commit()
     return redirect(url_for('basket'))
 
 @app.route('/delete_to_basket/<productID>')
 @login_required
 def delete_to_basket(productID):
-    #Basket.query.filter(Basket.id_product == productID and Basket.id_user == current_user.id).delete()
-    db_sess.query(Basket).filter(Basket.id_product == productID and Basket.id_user == current_user.id).delete()
+    data = db_sess.query(Basket).filter(Basket.id_product == productID and Basket.id_user == current_user.id)
+    if data.first().count > 1:
+        data.update({'count': data.first().count - 1})
+    elif data.first().count == 1:
+        data.delete()
     db_sess.commit()
     return redirect(url_for('basket'))
 

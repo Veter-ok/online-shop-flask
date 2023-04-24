@@ -1,18 +1,26 @@
 {% extends 'base.html' %}
 
+{% block links %} 
+<link href="../static/css/basket.css" rel="stylesheet">
+{% endblock %}
+
 {% block body %} 
 <p class="h1">Basket</p>
-<div class="row">
+<div class="cards-header">
+	<div class="cards-header-item">Name</div>
+	<div class="cards-header-item">Count</div>
+	<div class="cards-header-item">Price</div>
+</div>
+<div class="cards">
 	{% for product in basket %}
-	<div class="card w-25 mx-3">
+	<div class="card">
 		<!-- <img src="{{ url_for('static', filename=product.img) }}" class="card-img-top" alt="..."> -->
-		<div class="card-body">
-			<h5 class="card-title">{{ product.name }}</h5>
-			<p class="card-text" style="height: 9.2em; overflow: hidden;">{{product.description}}</p>
-		</div>
-		<a href="{{ url_for('delete_to_basket', productID=product.id_product) }}" class="btn btn-primary mt-4">Delete</a>
+		<h5 class="card-title">{{ product.name }}</h5>
+		<p class="count">{{ product.count }}</p>
+		<!-- <p class="card-text" style="height: 9.2em; overflow: hidden;">{{product.description}}</p> -->
+		<a href="{{ url_for('delete_to_basket', productID=product.id_product) }}" class="">Delete</a>
 	</div>
 	{% endfor %}
-	<div>Total: {{total}}₽</div>
 </div>
+<div>Total: {{total}}₽</div>
 {% endblock %}
